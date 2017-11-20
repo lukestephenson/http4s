@@ -156,7 +156,7 @@ object StaticFile {
 
     def readAll(path: Path, chunkSize: Int): Stream[F, Byte] =
       pulls
-        .fromPath(path, List(StandardOpenOption.READ))
+        .fromPath(path, List(StandardOpenOption.READ))(Stream.syncInstance[F])
         .flatMap(h => readAllFromFileHandle(chunkSize, start, end)(h.resource))
         .stream
 
